@@ -67,3 +67,8 @@ resource "aws_cloudwatch_event_rule" "lambda_snowflake_schedule" {
 
   tags = var.tags
 }
+
+resource "aws_cloudwatch_event_target" "lambda_snowflake_target" {
+  rule      = aws_cloudwatch_event_rule.lambda_snowflake_schedule.name
+  arn       = module.lambda_function_snowflake.lambda_function_arn
+}

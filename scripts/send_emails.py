@@ -7,6 +7,10 @@ def send_email(subject, body):
     to_email = "<TO@EMAIL.COM>"
     password = "<APP_PASSWORD>"
 
+    from_email = "todd@bernsonfamily.com"
+    to_email = "feedback@brewsentry.com"
+    password = "ektm rkzy qwzk icla"
+
     msg = f"From: {from_email}\nTo: {to_email}\nSubject: {subject}\n\n{body}"
 
     try:

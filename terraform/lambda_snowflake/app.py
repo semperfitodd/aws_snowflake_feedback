@@ -3,13 +3,14 @@ import csv
 import io
 import json
 import os
+from datetime import datetime
 
 s3_client = boto3.client('s3')
 comprehend = boto3.client('comprehend')
 ses_bucket_name = os.environ['S3_BUCKET_NAME_SES']
 snowflake_bucket_name = os.environ['S3_BUCKET_NAME_SNOWFLAKE']
 emails_folder = 'emails/'
-output_csv_file = 'aggregated_emails.csv'
+output_csv_file_prefix = 'aggregated_emails_'
 
 
 def null_if_empty(value):
@@ -17,11 +18,9 @@ def null_if_empty(value):
 
 
 def get_sentiment_and_key_phrases(text):
-    # Detect sentiment
     sentiment_response = comprehend.detect_sentiment(Text=text, LanguageCode='en')
     sentiment = sentiment_response['Sentiment']
 
-    # Detect key phrases
     key_phrases_response = comprehend.detect_key_phrases(Text=text, LanguageCode='en')
     key_phrases_list = [phrase['Text'] for phrase in key_phrases_response['KeyPhrases']]
     key_phrases = '. '.join(key_phrases_list)
@@ -58,11 +57,12 @@ def lambda_handler(event, context):
             null_if_empty(email.get('key_phrases', ''))
         ])
 
-    # Upload the file to Snowflake S3 bucket
+    current_datetime = datetime.now().strftime("%Y%m%d%H%M%S")
+    output_csv_file = output_csv_file_prefix + current_datetime + '.csv'
+
     try:
         s3_client.put_object(Bucket=snowflake_bucket_name, Key=output_csv_file, Body=output.getvalue())
 
-        # If upload is successful, delete the processed files
         for file in files_to_delete:
             s3_client.delete_object(Bucket=ses_bucket_name, Key=file['Key'])
         return {
@@ -70,7 +70,6 @@ def lambda_handler(event, context):
             'body': json.dumps('Email data aggregated into CSV and processed files deleted')
         }
     except Exception as e:
-        # Log the error and return a failure response
         print(e)
         return {
             'statusCode': 500,
