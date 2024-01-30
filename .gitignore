@@ -6,6 +6,10 @@
 **/builds/*
 **/node_modules/*
 
+# python
+secrets.py
+**/__pycache__/*
+
 # .tfstate static_site
 *.tfstate
 *.tfstate.*

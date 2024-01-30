@@ -6,7 +6,7 @@ module "lambda_function_snowflake" {
   handler       = "app.lambda_handler"
   publish       = true
   runtime       = "python3.11"
-  timeout       = 30
+  timeout       = 300
 
   source_path = [
     {
@@ -69,6 +69,6 @@ resource "aws_cloudwatch_event_rule" "lambda_snowflake_schedule" {
 }
 
 resource "aws_cloudwatch_event_target" "lambda_snowflake_target" {
-  rule      = aws_cloudwatch_event_rule.lambda_snowflake_schedule.name
-  arn       = module.lambda_function_snowflake.lambda_function_arn
+  rule = aws_cloudwatch_event_rule.lambda_snowflake_schedule.name
+  arn  = module.lambda_function_snowflake.lambda_function_arn
 }

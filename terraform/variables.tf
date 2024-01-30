@@ -22,6 +22,18 @@ variable "site_domain" {
   default     = null
 }
 
+variable "snowflake_aws_user_arn" {
+  description = "AWS account number where Snowflake is hosted"
+  type = string
+  default = "arn:aws:iam::099720109477:root" # Default value of canonical for first TF apply
+}
+
+variable "snowflake_external_id" {
+  description = "External ID for AWS Trusted ID"
+  type = string
+  default = "0000" # Default value to allow first TF apply
+}
+
 variable "tags" {
   description = "Tags to be applied to resources"
   type        = map(string)

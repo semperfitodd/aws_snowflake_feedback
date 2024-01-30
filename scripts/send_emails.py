@@ -1,12 +1,10 @@
 import smtplib
 import random
 
+from secrets import from_email, to_email, password
+
 
 def send_email(subject, body):
-    from_email = "<FROM@EMAIL.COM>"
-    to_email = "<TO@EMAIL.COM>"
-    password = "<APP_PASSWORD>"
-
     msg = f"From: {from_email}\nTo: {to_email}\nSubject: {subject}\n\n{body}"
 
     try:
