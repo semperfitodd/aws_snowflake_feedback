@@ -28,6 +28,22 @@ locals {
   }
 }
 
+module "all_notifications" {
+  source = "terraform-aws-modules/s3-bucket/aws//modules/notification"
+  count  = var.snowflake_sqs_arn != null ? 1 : 0
+
+  bucket = module.snowflake_s3_bucket.s3_bucket_id
+
+  create_sqs_policy = false
+
+  sqs_notifications = {
+    sqs1 = {
+      events    = ["s3:ObjectCreated:Put"]
+      queue_arn = var.snowflake_sqs_arn
+    }
+  }
+}
+
 module "ses_s3_bucket" {
   source = "terraform-aws-modules/s3-bucket/aws"
 
@@ -110,6 +126,18 @@ module "snowflake_s3_bucket" {
       }
     }
   }
+
+  lifecycle_rule = [
+    {
+      id                                     = "email"
+      enabled                                = true
+      abort_incomplete_multipart_upload_days = 7
+
+      expiration = {
+        days = 32
+      }
+    }
+  ]
 
   tags = var.tags
 }

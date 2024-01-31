@@ -15,6 +15,7 @@ secrets.py
 *.tfstate.*
 
 # plan static_site
+actual_tfvars.tfvars
 plan.out
 *.zip
 
