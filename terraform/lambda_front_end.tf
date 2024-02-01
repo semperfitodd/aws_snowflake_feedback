@@ -4,16 +4,16 @@ module "lambda_function_front_end" {
   function_name = "${var.environment}_front_end"
   description   = "${var.environment} function to access Snowflake"
 
-  architectures = ["arm64"]
-  handler       = "app.lambda_handler"
+  handler       = "index.handler"
   publish       = true
-  runtime       = "python3.11"
+  runtime       = "nodejs16.x"
   timeout       = 30
 
   source_path = [
     {
       path             = "${path.module}/lambda_front_end"
-      pip_requirements = true
+      npm_requirements = true
+
     }
   ]
 
@@ -51,10 +51,10 @@ resource "aws_secretsmanager_secret_version" "snowflake_secret" {
   secret_id = aws_secretsmanager_secret.snowflake_secret.id
   secret_string = jsonencode(
     {
-      username = null
+      account      = null
       password = null
+      username = null
       view     = null
-      url      = null
     }
   )
 }
