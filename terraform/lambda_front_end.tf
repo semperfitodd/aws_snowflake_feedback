@@ -36,6 +36,13 @@ module "lambda_function_front_end" {
     SECRET_NAME = aws_secretsmanager_secret.snowflake_secret.name
   }
 
+  allowed_triggers = {
+    AllowExecutionFromAPIGateway = {
+      service    = "apigateway"
+      source_arn = "${module.api_gateway.apigatewayv2_api_execution_arn}/*/*"
+    }
+  }
+
   cloudwatch_logs_retention_in_days = 3
 
   tags = var.tags
