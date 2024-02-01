@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "aws-sdk": "^2.1548.0",
+    "snowflake-sdk": "^1.9.3"
+  }
+}
