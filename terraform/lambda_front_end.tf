@@ -58,3 +58,14 @@ resource "aws_secretsmanager_secret_version" "snowflake_secret" {
     }
   )
 }
+
+resource "null_resource" "npm_install_front_end" {
+  triggers = {
+    package_json = filesha256("${path.module}/lambda_front_end/package.json")
+    node_modules_exists = length(fileset("${path.module}/lambda_front_end", "node_modules/**")) > 0 ? "true" : "false"
+  }
+
+  provisioner "local-exec" {
+    command = "cd ${path.module}/lambda_ses && npm install"
+  }
+}

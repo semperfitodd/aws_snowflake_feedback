@@ -3,15 +3,15 @@ module "lambda_function_ses" {
 
   function_name = "${var.environment}_ses_s3"
   description   = "${var.environment} function to put emails into S3"
-  handler       = "app.lambda_handler"
+  handler       = "index.handler"
   publish       = true
-  runtime       = "python3.11"
+  runtime       = "nodejs16.x"
   timeout       = 30
 
   source_path = [
     {
+      npm_requirements = true
       path             = "${path.module}/lambda_ses"
-      pip_requirements = false
     }
   ]
 
@@ -37,4 +37,15 @@ module "lambda_function_ses" {
   cloudwatch_logs_retention_in_days = 3
 
   tags = var.tags
+}
+
+resource "null_resource" "npm_install_ses" {
+  triggers = {
+    package_json = filesha256("${path.module}/lambda_ses/package.json")
+    node_modules_exists = length(fileset("${path.module}/lambda_ses", "node_modules/**")) > 0 ? "true" : "false"
+  }
+
+  provisioner "local-exec" {
+    command = "cd ${path.module}/lambda_ses && npm install"
+  }
 }
