@@ -5,6 +5,14 @@ exports.handler = async (event) => {
     const secretsManager = new AWS.SecretsManager();
     const secretName = process.env.SECRET_NAME;
     let connection;
+    const viewName = event.queryStringParameters && event.queryStringParameters.view;
+
+    if (!viewName) {
+        return {
+            statusCode: 400,
+            body: JSON.stringify('No view specified')
+        };
+    }
 
     try {
         const secretValue = await secretsManager.getSecretValue({ SecretId: secretName }).promise();
@@ -14,7 +22,8 @@ exports.handler = async (event) => {
             account: credentials.account,
             username: credentials.username,
             password: credentials.password,
-            view: credentials.view
+            database: 'POC_01',
+            schema: 'PUBLIC'
         });
 
         await new Promise((resolve, reject) => {
@@ -29,8 +38,7 @@ exports.handler = async (event) => {
             });
         });
 
-        const viewName = credentials.view;
-        const sqlText = `SELECT * FROM ${viewName} LIMIT 10`;
+        const sqlText = `SELECT * FROM ${viewName}`;
         const rows = await executeSql(connection, sqlText);
 
         return {

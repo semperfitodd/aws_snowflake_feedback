@@ -13,7 +13,7 @@ data "aws_iam_policy_document" "site" {
 locals {
   environment = replace(var.environment, "_", "-")
 
-  site_directory = "${path.module}/static-site"
+  site_directory = "${path.module}/static-site/build"
 
   mime_types = {
     "css"  = "text/css"
