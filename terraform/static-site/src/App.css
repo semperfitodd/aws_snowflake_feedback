@@ -1,19 +1,39 @@
-/* App.css */
-
-/* Common styles for both mobile and desktop */
 body {
     background-color: black;
     color: white;
     text-align: center;
     font-family: Arial, sans-serif;
     padding: 20px;
+    margin: 0;
 }
 
 .App-header {
     margin-bottom: 20px;
 }
 
-/* Mobile styles */
+.email-count-banner {
+    background-color: #607D8B;
+    color: white;
+    padding: 40px;
+    margin: 40px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.email-count-banner span {
+    font-size: 2rem;
+}
+
+.email-count {
+    font-size: 8rem;
+    color: #ffeb3b;
+    font-weight: bold;
+    margin-left: 20px;
+}
+
 @media screen and (max-width: 600px) {
     .feedback-category {
         background-color: #333;
@@ -25,22 +45,34 @@ body {
     .feedback-category h3 {
         color: #FFCE56;
         margin-bottom: 10px;
-        text-align: center;
     }
 
     .feedback-category ul {
         list-style: none;
-        padding: 0;
         margin: 0;
-        text-align: center;
+        padding: 0;
     }
 
     .feedback-category li {
         margin-bottom: 5px;
     }
+
+    .email-count-banner {
+        flex-direction: column;
+        padding: 20px;
+        margin: 20px 0;
+    }
+
+    .email-count-banner span, .email-count {
+        font-size: 3rem;
+    }
+
+    .email-count {
+        font-size: 6rem;
+        margin-left: 0;
+    }
 }
 
-/* Desktop styles */
 @media screen and (min-width: 601px) {
     .App {
         align-items: center;
@@ -52,7 +84,6 @@ body {
     }
 
     .header-text {
-        text-align: center;
         font-size: 1.5rem;
         margin-bottom: 10px;
     }
@@ -107,7 +138,6 @@ body {
     .feedback-category h3 {
         color: #FFCE56;
         margin-bottom: 10px;
-        text-align: center;
     }
 
     .feedback-category ul {
