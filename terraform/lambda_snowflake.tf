@@ -75,7 +75,7 @@ resource "aws_cloudwatch_event_target" "lambda_snowflake_target" {
 
 resource "null_resource" "npm_install_snowflake" {
   triggers = {
-    package_json = filesha256("${path.module}/lambda_snowflake/package.json")
+    package_json        = filesha256("${path.module}/lambda_snowflake/package.json")
     node_modules_exists = length(fileset("${path.module}/lambda_snowflake", "node_modules/**")) > 0 ? "true" : "false"
   }
 

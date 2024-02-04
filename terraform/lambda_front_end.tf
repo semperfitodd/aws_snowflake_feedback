@@ -4,10 +4,10 @@ module "lambda_function_front_end" {
   function_name = "${var.environment}_front_end"
   description   = "${var.environment} function to access Snowflake"
 
-  handler       = "index.handler"
-  publish       = true
-  runtime       = "nodejs16.x"
-  timeout       = 30
+  handler = "index.handler"
+  publish = true
+  runtime = "nodejs16.x"
+  timeout = 30
 
   source_path = [
     {
@@ -52,23 +52,28 @@ resource "aws_secretsmanager_secret" "snowflake_secret" {
   name                    = "${local.environment}-snowflake-credentials"
   description             = "${local.environment} snowflake secrets"
   recovery_window_in_days = "7"
+
+  tags = var.tags
 }
 
 resource "aws_secretsmanager_secret_version" "snowflake_secret" {
   secret_id = aws_secretsmanager_secret.snowflake_secret.id
   secret_string = jsonencode(
     {
-      account      = null
+      account  = null
       password = null
       username = null
-      view     = null
     }
   )
+
+  lifecycle {
+    ignore_changes = [secret_string]
+  }
 }
 
 resource "null_resource" "npm_install_front_end" {
   triggers = {
-    package_json = filesha256("${path.module}/lambda_front_end/package.json")
+    package_json        = filesha256("${path.module}/lambda_front_end/package.json")
     node_modules_exists = length(fileset("${path.module}/lambda_front_end", "node_modules/**")) > 0 ? "true" : "false"
   }
 

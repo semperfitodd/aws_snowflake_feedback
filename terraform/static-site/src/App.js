@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import './App.css';
@@ -20,36 +20,46 @@ const App = () => {
   const [neutralFeedback, setNeutralFeedback] = useState([]);
   const [error, setError] = useState("");
 
-  const fetchData = async () => {
-  try {
-    // Fetching existing overview data
-    let response = await axios.get(API_ENDPOINT, {
-      params: { view: FEEDBACK_OVERVIEW }
-    });
-    let data = response.data;
-    setCurrentPeriodData(processData(data, 'Current period'));
-    setPreviousPeriodData(processData(data, 'Previous period'));
+  const combinePhrases = (feedbackList) => {
+    const phraseCounts = {};
 
-    // Fetching keyword data
-    response = await axios.get(API_ENDPOINT, {
-      params: { view: 'v_feedback_with_keyword_by_period' }
+    feedbackList.forEach(item => {
+      item.KEYWORD_LIST.toLowerCase().split(',').forEach(phrase => {
+        const trimmedPhrase = phrase.trim();
+        phraseCounts[trimmedPhrase] = (phraseCounts[trimmedPhrase] || 0) + 1;
+      });
     });
-    data = response.data;
 
-    // Filtering and setting feedback categories
-    setPositiveFeedback(data.filter(item => item.FEEDBACK === 'POSITIVE'));
-    setNegativeFeedback(data.filter(item => item.FEEDBACK === 'NEGATIVE'));
-    setMixedFeedback(data.filter(item => item.FEEDBACK === 'MIXED'));
-    setNeutralFeedback(data.filter(item => item.FEEDBACK === 'NEUTRAL'));
-  } catch (err) {
-    setError("Failed to fetch data. Please try again later.");
-    console.error("Error fetching data:", err);
-  }
-};
+    return Object.keys(phraseCounts).map(phrase => `${phrase} (${phraseCounts[phrase]})`);
+  };
+
+  const fetchData = useCallback(async () => {
+    try {
+      let response = await axios.get(API_ENDPOINT, {
+        params: { view: FEEDBACK_OVERVIEW }
+      });
+      let data = response.data;
+      setCurrentPeriodData(processData(data, 'Current period'));
+      setPreviousPeriodData(processData(data, 'Previous period'));
+
+      response = await axios.get(API_ENDPOINT, {
+        params: { view: 'v_feedback_with_keyword_by_period' }
+      });
+      data = response.data;
+
+      setPositiveFeedback(combinePhrases(data.filter(item => item.FEEDBACK === 'POSITIVE')));
+      setNegativeFeedback(combinePhrases(data.filter(item => item.FEEDBACK === 'NEGATIVE')));
+      setMixedFeedback(combinePhrases(data.filter(item => item.FEEDBACK === 'MIXED')));
+      setNeutralFeedback(combinePhrases(data.filter(item => item.FEEDBACK === 'NEUTRAL')));
+    } catch (err) {
+      setError("Failed to fetch data. Please try again later.");
+      console.error("Error fetching data:", err);
+    }
+  }, []);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const getCurrentDateTime = () => {
     return new Intl.DateTimeFormat('en-US', {
@@ -79,13 +89,13 @@ const App = () => {
           </div>
         </section>
         {error && <p className="error">{error}</p>}
+        <h2>Key Phrases from Emails</h2>
         <div className="phrases-section">
-          <FeedbackCategory title="Positive Feedback" feedbackList={positiveFeedback} />
-          <FeedbackCategory title="Negative Feedback" feedbackList={negativeFeedback} />
-          <FeedbackCategory title="Mixed Feedback" feedbackList={mixedFeedback} />
-          <FeedbackCategory title="Neutral Feedback" feedbackList={neutralFeedback} />
+          <FeedbackCategory title="Positive Feedback" feedbackList={positiveFeedback}/>
+          <FeedbackCategory title="Negative Feedback" feedbackList={negativeFeedback}/>
+          <FeedbackCategory title="Mixed Feedback" feedbackList={mixedFeedback}/>
+          <FeedbackCategory title="Neutral Feedback" feedbackList={neutralFeedback}/>
         </div>
-  {error && <p className="error">{error}</p>}
       </main>
     </div>
   );

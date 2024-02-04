@@ -41,7 +41,7 @@ module "lambda_function_ses" {
 
 resource "null_resource" "npm_install_ses" {
   triggers = {
-    package_json = filesha256("${path.module}/lambda_ses/package.json")
+    package_json        = filesha256("${path.module}/lambda_ses/package.json")
     node_modules_exists = length(fileset("${path.module}/lambda_ses", "node_modules/**")) > 0 ? "true" : "false"
   }
 

@@ -13,19 +13,25 @@ body {
   margin-bottom: 20px;
 }
 
-/* Mobile styles */
 @media screen and (max-width: 600px) {
-  .chart-title {
-    font-size: 1.5rem;
+  .feedback-category ul {
+    list-style: none;
+    padding-left: 0;
+    background-color: #333;
+  }
+
+  .feedback-category h3 {
+    color: #FFCE56;
+    background-color: #333;
   }
 }
 
 /* Desktop styles */
 @media screen and (min-width: 601px) {
   .App {
+    align-items: center;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
     min-height: 100vh;
     width: 100%;
@@ -75,35 +81,41 @@ body {
 
   .feedback-phrases-container {
     display: flex;
-    justify-content: space-between;
-    width: 80%;
-    padding: 0;
-    margin: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1200px;
+    margin: auto;
   }
 
   .feedback-category {
-    flex: 1;
-    margin: 0 10px;
+    flex: 0 0 48%;
+    margin: 10px;
     padding: 10px;
-    background-color: #333; /* Slight background for readability */
+    background-color: #333;
     border-radius: 8px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: 200px;
   }
 
   .feedback-category h3 {
     color: #FFCE56;
-    font-size: 1.2rem;
     margin-bottom: 10px;
+    text-align: center;
   }
 
   .feedback-category ul {
     list-style: none;
     padding-left: 0;
-    text-align: left;
+    width: 100%;
+    text-align: center;
   }
 
   .feedback-category li {
     font-size: 0.875rem;
-    color: white;
     margin-bottom: 5px;
   }
 

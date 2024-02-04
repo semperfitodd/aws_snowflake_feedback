@@ -21,11 +21,11 @@ module "api_gateway" {
     throttling_rate_limit  = 20
   }
 
-    integrations = {
-      "GET /snowflake" = {
-        lambda_arn = module.lambda_function_front_end.lambda_function_invoke_arn
-      }
+  integrations = {
+    "GET /snowflake" = {
+      lambda_arn = module.lambda_function_front_end.lambda_function_invoke_arn
     }
+  }
 
   tags = var.tags
 

@@ -6,8 +6,8 @@ const FeedbackCategory = ({ title, feedbackList }) => {
     <div className="feedback-category">
       <h3>{title}</h3>
       <ul>
-        {feedbackList.map((feedback, index) => (
-          <li key={index}>{feedback.KEYWORD_LIST}</li>
+        {feedbackList.map((phrase, index) => (
+          <li key={index}>{phrase}</li>
         ))}
       </ul>
     </div>
