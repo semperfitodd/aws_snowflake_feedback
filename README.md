@@ -119,3 +119,37 @@ Before deploying this project, ensure you meet the following prerequisites:
 - Set up Snowflake pipes to process and store the data.
 - Adjust tfvars file with needed Snowflake variables.
 - Run Terraform again.
+
+## Email Simulation Script
+
+The `scripts/send_emails_bedrock.py` is a Python script designed to simulate sending emails. It leverages AI language models to create sample email content, which can be useful for testing the feedback processing pipeline without needing real user data.
+
+### Setup
+
+To use the email simulation script, you need to set up a few things:
+
+1. **Install Dependencies**: Install the required Python packages using `pip`.
+
+    ```bash
+    pip install -r scripts/requirements.txt
+    ```
+
+2. **Configuration**: Create a `secrets.py` file in the `scripts` directory with the necessary configuration variables.
+
+    ```python
+    # secrets.py
+    from_email = "from@example.com"
+    to_email = "feedback@company.com"
+    password = "<APP_EMAIL_PW>"
+    ```
+
+    Replace the placeholder values with your actual AWS credentials and the SES email address that has been verified with Amazon SES.
+
+### Usage
+
+To send simulated emails, run the `send_emails_bedrock.py` script:
+
+```bash
+python scripts/send_emails_bedrock.py
+```
+![python_script.png](images%2Fpython_script.png)
