@@ -1,181 +1,211 @@
 body {
-    background-color: black;
-    color: white;
+    background-color: #f4f4f4;
+    color: #333;
     text-align: center;
-    font-family: Arial, sans-serif;
-    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
 }
 
+.App {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
 .App-header {
-    margin-bottom: 20px;
+    align-items: center;
+    background-color: #333;
+    border-radius: 12px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .2);
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    margin: 40px 0;
+    padding: 50px;
+}
+
+.main-heading {
+    font-size: 2.5rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+.data-time {
+    font-size: 1rem;
+    margin-top: 10px;
 }
 
 .email-count-banner {
-    background-color: #607D8B;
-    color: white;
-    padding: 40px;
-    margin: 40px 0;
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    border-radius: 8px;
+    background-color: #2196F3;
+    border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: white;
+    display: block;
+    justify-content: space-around;
+    margin: 40px 0;
+    padding: 50px;
 }
 
-.email-count-banner span {
+.total-emails-label {
     font-size: 2rem;
+    font-weight: 600;
+}
+
+.email-text {
+    font-size: 4rem;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+.email-sentiment-negative {
+    font-size: 4rem;
+    color: #f80315;
+    font-weight: 600;
+}
+
+.email-sentiment-positive {
+    font-size: 4rem;
+    color: #87a92f;
+    font-weight: 600;
 }
 
 .email-count {
-    font-size: 8rem;
-    color: #ffeb3b;
-    font-weight: bold;
-    margin-left: 20px;
+    font-size: 6rem;
+    color: #FFEB3B;
+    font-weight: 700;
+}
+
+.sentiment-breakdown {
+    margin-bottom: 40px;
+}
+
+.sentiment-breakdown h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: 600;
+}
+
+.chart-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.pie-chart {
+    margin: 10px;
+    flex-basis: 50%;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.chart-title {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.phrases-section {
+    width: 100%;
+}
+
+.phrases-section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: 600;
+}
+
+.feedback-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.feedback-category {
+    flex: 1 1 300px;
+    background-color: white;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-category h3 {
+    color: #FFCE56;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.feedback-category ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.feedback-category li {
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.error {
+    color: red;
+    margin-top: 20px;
 }
 
 @media screen and (max-width: 600px) {
-    .feedback-category {
-        background-color: #333;
-        border-radius: 8px;
-        padding: 10px;
-        margin-bottom: 20px;
+    .App-header {
+        padding: 15px 10px;
     }
 
-    .feedback-category h3 {
-        color: #FFCE56;
-        margin-bottom: 10px;
+    .main-heading {
+        font-size: 1.8rem;
     }
 
-    .feedback-category ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    .feedback-category li {
-        margin-bottom: 5px;
+    .data-time {
+        font-size: 0.9rem;
     }
 
     .email-count-banner {
         flex-direction: column;
-        padding: 20px;
-        margin: 20px 0;
+        padding: 30px;
     }
 
-    .email-count-banner span, .email-count {
-        font-size: 3rem;
+    .total-emails-label {
+        font-size: 1rem;
     }
 
     .email-count {
-        font-size: 6rem;
-        margin-left: 0;
-    }
-}
-
-@media screen and (min-width: 601px) {
-    .App {
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        min-height: 100vh;
-        width: 100%;
+        font-size: 3rem;
     }
 
-    .header-text {
+    .email-text {
+        font-size: 2rem;
+    }
+
+    .email-sentiment-negative, .email-sentiment-positive {
+        font-size: 2rem;
+    }
+
+    .sentiment-breakdown h2, .phrases-section h2 {
         font-size: 1.5rem;
-        margin-bottom: 10px;
-    }
-
-    .data-time {
-        font-size: 0.875rem;
-        margin-bottom: 20px;
-    }
-
-    .charts-section {
-        display: flex;
-        justify-content: center;
-        width: 100%;
     }
 
     .chart-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        width: 100%;
-        margin-bottom: 30px;
-    }
-
-    .pie-chart {
-        margin: 10px;
-        flex-basis: 50%;
-    }
-
-    .chart-title {
-        font-size: 1.25rem;
-        margin-bottom: 10px;
-    }
-
-    .phrases-section h2 {
-        text-align: center;
-    }
-
-    .feedback-category {
-        flex: 0 0 48%;
-        margin: 10px;
-        padding: 10px;
-        background-color: #333;
-        border-radius: 8px;
-        color: white;
-        display: flex;
         flex-direction: column;
-        align-items: center;
-        box-sizing: border-box;
-        min-height: 200px;
-    }
-
-    .feedback-category h3 {
-        color: #FFCE56;
-        margin-bottom: 10px;
-    }
-
-    .feedback-category ul {
-        list-style: none;
-        padding-left: 0;
-        width: 100%;
-        text-align: center;
-    }
-
-    .feedback-phrases-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        max-width: 1200px;
-        margin: 0 auto;
-        gap: 20px;
-    }
-
-    .feedback-category {
-        align-items: center;
-        background-color: #333;
-        border-radius: 8px;
-        box-sizing: border-box;
-        color: white;
-        flex: 1 1 calc(50% - 20px);
-        margin: 10px;
-        min-height: 200px;
-        padding: 10px;
     }
 
     .feedback-row {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
+        flex-direction: column;
     }
 
-    .error {
-        color: red;
-        margin-top: 20px;
+    .feedback-category {
+        width: 100%;
     }
 }

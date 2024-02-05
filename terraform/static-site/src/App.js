@@ -18,7 +18,9 @@ function App() {
         negativeFeedback: [],
         mixedFeedback: [],
         neutralFeedback: [],
-        totalEmails: 0
+        totalEmails: 0,
+        positiveFeedbackCount: 0,
+        negativeFeedbackCount: 0,
     });
     const [error, setError] = useState('');
 
@@ -28,14 +30,19 @@ function App() {
                 const overviewResponse = await axios.get(API_ENDPOINT, {params: {view: 'v_feedback_overview_by_period'}});
                 const feedbackResponse = await axios.get(API_ENDPOINT, {params: {view: 'v_feedback_with_keyword_by_period'}});
                 const overallAttributesResponse = await axios.get(API_ENDPOINT, {params: {view: 'v_overall_attributes'}});
+                const feedbackOverviewResponse = await axios.get(API_ENDPOINT, {params: {view: 'v_feedback_overview'}});
 
+                const positiveCount = feedbackOverviewResponse.data.find(item => item.FEEDBACK === 'POSITIVE')?.RECCOUNT || 0;
+                const negativeCount = feedbackOverviewResponse.data.find(item => item.FEEDBACK === 'NEGATIVE')?.RECCOUNT || 0;
                 const totalEmails = overallAttributesResponse.data.find(attr => attr.ATTRIBUTE === 'Total responses')?.VALUE || 0;
 
                 setData({
-                    currentPeriodData: processData(overviewResponse.data, 'Current period'),
-                    previousPeriodData: processData(overviewResponse.data, 'Previous period'),
                     ...processFeedback(feedbackResponse.data),
-                    totalEmails
+                    currentPeriodData: processData(overviewResponse.data, 'Current period'),
+                    negativeFeedbackCount: negativeCount,
+                    positiveFeedbackCount: positiveCount,
+                    previousPeriodData: processData(overviewResponse.data, 'Previous period'),
+                    totalEmails,
                 });
             } catch (err) {
                 setError('Failed to fetch data. Please try again later.');
@@ -77,8 +84,16 @@ function App() {
             </header>
             <main>
                 <section className="email-count-banner">
-                    <span>Total Emails Received:</span>
-                    <span className="email-count">{data.totalEmails}</span>
+                    <div>
+                        <span className="email-text">Total Emails Received:</span>
+                        <span className="email-count">{data.totalEmails}</span>
+                    </div>
+                    <div>
+                        <span className="email-sentiment-positive">{'\u263A'}: {data.positiveFeedbackCount}</span>
+                    </div>
+                    <div>
+                        <span className="email-sentiment-negative">{'\u2639'}: {data.negativeFeedbackCount}</span>
+                    </div>
                 </section>
                 <h2>Email Sentiment Breakdown</h2>
                 <section className="chart-section">
