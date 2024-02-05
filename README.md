@@ -75,40 +75,40 @@ Before deploying this project, ensure you meet the following prerequisites:
 
 ### Frontend Setup and Deployment
 
-1. Navigate to the static-site directory:
+1. Clone the repository to your local machine:
     ```bash
-    cd static-site
+    git clone https://github.com/semperfitodd/aws_snowflake_feedback
+    cd aws_snowflake_feedback
     ```
-2. Install the required Node.js packages:
+2. Navigate to the static-site directory:
+    ```bash
+    cd terraform/static-site
+    ```
+3. Install the required Node.js packages:
     ```bash
     npm install
     ```
-3. Build the frontend application:
+4. Build the frontend application:
     ```bash
     npm run build
     ```
 
 ### Backend Deployment with Terraform
 
-1. Clone the repository to your local machine:
+1. Navigate to the terraform directory:
     ```bash
-    git clone <repository-url>
-    cd <repository-directory>
+    cd .. #terraform directory
     ```
-2. Navigate to the terraform directory:
-    ```bash
-    cd terraform
-    ```
-3. Complete `terraform.tfvars` file with necessary variables such as AWS region, resource names, etc..
-4. Initialize the Terraform environment to download necessary providers:
+2. Complete `terraform.tfvars` file with necessary variables such as AWS region, resource names, etc..
+3. Initialize the Terraform environment to download necessary providers:
     ```bash
     terraform init
     ```
-5. Plan the Terraform deployment to review the changes that will be applied:
+4. Plan the Terraform deployment to review the changes that will be applied:
     ```bash
     terraform plan -out plan.out
     ```
-6. Apply the Terraform plan to deploy the infrastructure:
+5. Apply the Terraform plan to deploy the infrastructure:
     ```bash
     terraform apply plan.out
     ```
