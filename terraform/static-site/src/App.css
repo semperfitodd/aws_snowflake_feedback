@@ -60,20 +60,28 @@ body {
 
 .email-sentiment-negative {
     font-size: 4rem;
-    color: #f80315;
-    font-weight: 600;
+    color: #FF0000;
+    font-weight: 500;
+    text-shadow: none;
 }
 
 .email-sentiment-positive {
     font-size: 4rem;
     color: #87a92f;
-    font-weight: 600;
+    font-weight: 500;
+    text-shadow: none;
 }
 
 .email-count {
     font-size: 6rem;
     color: #FFEB3B;
     font-weight: 700;
+}
+
+.emoji-image {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
 }
 
 .sentiment-breakdown {

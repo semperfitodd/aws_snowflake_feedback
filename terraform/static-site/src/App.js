@@ -89,11 +89,16 @@ function App() {
                         <span className="email-count">{data.totalEmails}</span>
                     </div>
                     <div>
-                        <span className="email-sentiment-positive">{'\u263A'}: {data.positiveFeedbackCount}</span>
+                      <span className="email-sentiment-positive">
+                        <img src={require('./images/smiley.png')} alt="Positive Feedback" className="emoji-image"/> {data.positiveFeedbackCount} positive
+                      </span>
                     </div>
                     <div>
-                        <span className="email-sentiment-negative">{'\u2639'}: {data.negativeFeedbackCount}</span>
+                      <span className="email-sentiment-negative">
+                        <img src={require('./images/frowny.png')} alt="Negative Feedback" className="emoji-image"/> {data.negativeFeedbackCount} negative
+                      </span>
                     </div>
+
                 </section>
                 <h2>Email Sentiment Breakdown</h2>
                 <section className="chart-section">

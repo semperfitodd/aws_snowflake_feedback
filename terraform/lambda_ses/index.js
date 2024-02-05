@@ -11,16 +11,18 @@ exports.handler = async (event) => {
     const source = mail.source;
     const subject = mail.commonHeaders.subject;
 
+    const emailDate = new Date(mail.commonHeaders.date);
+
+    const receivedDateTimeUTC = emailDate.toISOString();
+
     const rawContent = snsMessage.content;
     const emailData = await parseEmail(rawContent);
-
-    const currentDateTime = new Date().toISOString();
 
     const emailInfo = {
         sender: source,
         subject: subject,
         body: emailData.text,
-        received_datetime: currentDateTime
+        received_datetime: receivedDateTimeUTC
     };
 
     const s3Key = 'emails/' + mail.messageId;
