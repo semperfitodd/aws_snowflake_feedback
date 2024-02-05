@@ -45,7 +45,7 @@ module "lambda_function_front_end" {
 
   cloudwatch_logs_retention_in_days = 3
 
-  layers = ["arn:aws:lambda:us-east-1:580247275435:layer:LambdaInsightsExtension-Arm64:5"] # x-ray
+  layers = ["arn:aws:lambda:${var.region}:580247275435:layer:LambdaInsightsExtension-Arm64:5"] # x-ray
 
   tags = var.tags
 }
