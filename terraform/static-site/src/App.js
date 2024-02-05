@@ -110,6 +110,7 @@ function App() {
                 {error && <p className="error">{error}</p>}
                 <section className="phrases-section">
                     <h2>Key Phrases from Emails</h2>
+                    <h4><i>This is not what makes the sentiment. These are just important values in the emails. Sentiment is calculated separately.</i></h4>
                     <div className="feedback-row">
                         <FeedbackCategory title="Positive Feedback" feedbackList={data.positiveFeedback}/>
                         <FeedbackCategory title="Negative Feedback" feedbackList={data.negativeFeedback}/>
