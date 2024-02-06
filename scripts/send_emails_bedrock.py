@@ -1,8 +1,9 @@
-import smtplib
-import random
 import boto3
 import json
 import logging
+import random
+import smtplib
+import time
 from botocore.response import StreamingBody
 from secrets import from_email, to_email, password
 
@@ -60,21 +61,24 @@ def send_email(subject, body, server, email_count):
 
 
 def main():
-    try:
-        server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)
-        server.login(from_email, password)
-        print("AI creating emails...")
+    while True:
+        try:
+            server = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)
+            server.login(from_email, password)
+            print("AI creating emails...")
 
-        for i in range(75):
-            email_type = random.choice(EMAIL_TYPES)
-            subject, body = invoke_bedrock_model(email_type)
-            if subject and body:
-                send_email(subject, body, server, i + 1)
+            for i in range(75):
+                email_type = random.choice(EMAIL_TYPES)
+                subject, body = invoke_bedrock_model(email_type)
+                if subject and body:
+                    send_email(subject, body, server, i + 1)
 
-        server.quit()
-        print("\nAll emails sent successfully.")
-    except Exception as e:
-        logging.error(f"Error with SMTP server: {e}")
+            server.quit()
+            print("\n75 emails sent successfully. Sleeping for 5 minutes...")
+            time.sleep(300)
+
+        except Exception as e:
+            logging.error(f"Error: {e}")
 
 
 if __name__ == "__main__":

@@ -28,7 +28,7 @@ function App() {
         const fetchData = async () => {
             try {
                 const overviewResponse = await axios.get(API_ENDPOINT, {params: {view: 'v_feedback_overview_by_period'}});
-                const feedbackResponse = await axios.get(API_ENDPOINT, {params: {view: 'v_feedback_with_keyword_by_period'}});
+                const feedbackResponse = await axios.get(API_ENDPOINT, {params: {view: 'v_feedback_with_keyword'}});
                 const overallAttributesResponse = await axios.get(API_ENDPOINT, {params: {view: 'v_overall_attributes'}});
                 const feedbackOverviewResponse = await axios.get(API_ENDPOINT, {params: {view: 'v_feedback_overview'}});
 
@@ -58,18 +58,36 @@ function App() {
         const feedbackResult = {};
 
         feedbackTypes.forEach(type => {
-            feedbackResult[type.toLowerCase() + 'Feedback'] = feedbackData
-                .filter(item => item.FEEDBACK === type)
-                .map(item => item.KEYWORD_LIST.toLowerCase().split(',').map(phrase => phrase.trim()))
-                .flat()
-                .reduce((acc, phrase) => {
-                    acc[phrase] = (acc[phrase] || 0) + 1;
+            const feedbackForType = feedbackData.filter(item => item.FEEDBACK === type);
+
+            const keywordCounts = {};
+
+            feedbackForType.forEach(item => {
+                const keywords = item.KEYWORD_LIST.toLowerCase().split(',').map(phrase => phrase.trim());
+
+                keywords.forEach(keyword => {
+                    if (!keywordCounts[keyword]) {
+                        keywordCounts[keyword] = item.RECCOUNT;
+                    } else {
+                        keywordCounts[keyword] += item.RECCOUNT;
+                    }
+                });
+            });
+
+            const limitedKeywords = Object.entries(keywordCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 7)
+                .reduce((acc, [key, value]) => {
+                    acc[key] = value;
                     return acc;
                 }, {});
+
+            feedbackResult[type.toLowerCase() + 'Feedback'] = limitedKeywords;
         });
 
         return feedbackResult;
     };
+
 
     const getCurrentDateTime = () => new Intl.DateTimeFormat('en-US', {
         year: 'numeric', month: 'long', day: '2-digit',
@@ -90,12 +108,14 @@ function App() {
                     </div>
                     <div>
                       <span className="email-sentiment-positive">
-                        <img src={require('./images/smiley.png')} alt="Positive Feedback" className="emoji-image"/> {data.positiveFeedbackCount} positive
+                        <img src={require('./images/smiley.png')} alt="Positive Feedback"
+                             className="emoji-image"/> {data.positiveFeedbackCount} positive
                       </span>
                     </div>
                     <div>
                       <span className="email-sentiment-negative">
-                        <img src={require('./images/frowny.png')} alt="Negative Feedback" className="emoji-image"/> {data.negativeFeedbackCount} negative
+                        <img src={require('./images/frowny.png')} alt="Negative Feedback"
+                             className="emoji-image"/> {data.negativeFeedbackCount} negative
                       </span>
                     </div>
 
@@ -110,7 +130,8 @@ function App() {
                 {error && <p className="error">{error}</p>}
                 <section className="phrases-section">
                     <h2>Key Phrases from Emails</h2>
-                    <h4><i>This is not what makes the sentiment. These are just important values in the emails. Sentiment is calculated separately.</i></h4>
+                    <h4><i>This is not what makes the sentiment. These are just important values in the emails.
+                        Sentiment is calculated separately.</i></h4>
                     <div className="feedback-row">
                         <FeedbackCategory title="Positive Feedback" feedbackList={data.positiveFeedback}/>
                         <FeedbackCategory title="Negative Feedback" feedbackList={data.negativeFeedback}/>
