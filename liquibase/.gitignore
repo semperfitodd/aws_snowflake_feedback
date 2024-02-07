@@ -1,4 +1,0 @@
-# testing parameter file
-.lb_env
-# AWS configuration values specific for installation
-aws_feedback_info.txt
