@@ -1,11 +1,6 @@
-Sample Liquibase commands:
-Set environment variables separately for increased security.   Examples here are for Windows environment
+# Setup Snowflake utilizing Liquibase
 
-Check status:  liquibase status --url=%LB_URL% --username=%LB_USERNAME% --password=%LB_PASSWORD%
-Preview changes: liquibase update_sql --url=%LB_URL% --username=%LB_USERNAME% --password=%LB_PASSWORD%
-Process changes: liquibase update --url=%LB_URL% --username=%LB_USERNAME% --password=%LB_PASSWORD%
-
-Assumptions:
+## Assumptions:
 * Liquibase is installed locally and in executing user's path
 * Username specified in variable LIQUIBASE_COMMAND_USERNAME is granted roles `sysadmin` and `accountadmin`
 * Snowflake database specified in variable SNOWFLAKE_DATABASE exists and user has required access 
@@ -13,12 +8,12 @@ Assumptions:
 * Due to coordination required between AWS and Snowflake, the full install must be run in two steps.  Execute process below and utilize values in file `aws_feedback_info.txt` to complete AWS configuration
 
 
-Preliminary Steps:
+## Preliminary Steps:
 * Copy file `sample.lb_env` to `.lb_env` and set variable values as specified below
   * NOTE:  if you want to be prompted for all variables skip the this step
 * Perform all necessary AWS configurations specified separately
 
-Variables in file .lb_env:
+## Variables in file .lb_env:
 * SNOWFLAKE_DATABASE              : Snowflake database where all objects are created
 * SNOWFLAKE_WAREHOUSE             : Snowflake warehouse utilized to execute process
 * SNOWFLAKE_ACCOUNT               : Snowflake account number used to build connection string
@@ -29,7 +24,7 @@ Variables in file .lb_env:
 * AWS_IAM_ROLE_ARN                : AWS IAM Role ARN previously created for S3 access
 * AWS_S3_BUCKET_NAME              : AWS S3 bucket named used to store JSON files 
 
-Execution:
+## Execution:
 * Execute file `run_liquibase.sh`
 * If parameter file `.lb_env` not utilized, respond to prompts for necessary information.   Prompts correspond to variables specified above
 * When prompted by "Stop the process after initial creation of Storage Integration" answer as follows:
