@@ -23,3 +23,9 @@ plan.out
 .iml
 
 .DS_Store
+
+# Liquibase testing parameter file
+.lb_env
+# Liquibase AWS configuration values specific for installation
+aws_feedback_info.txt
+
