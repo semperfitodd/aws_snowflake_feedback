@@ -1,0 +1,10 @@
+#!/bin/bash
+export SNOWFLAKE_DATABASE="YourSnowflakeDatabaseNameHere"
+export SNOWFLAKE_WAREHOUSE="YourSnowflakeWarehouseNameHere"
+export SNOWFLAKE_ACCOUNT="YourSnowflakeAccountNumberHere"
+export LIQUIBASE_COMMAND_USERNAME="YourSnowflakeLoginNameHere"
+export LIQUIBASE_COMMAND_PASSWORD="YourSnowflakeLoginPasswordHere"
+export SNOWFLAKE_EMAILNOTIFICATIONLIST="'YourEmailNotificationListHere'"
+export SNOWFLAKE_REPORT_USER_PASSWORD="YourReportUserPasswordHere"
+export AWS_IAM_ROLE_ARN="YourAWSIAMRoleARNHere"
+export AWS_S3_BUCKET_NAME="YourAWSBucketNameHere"
