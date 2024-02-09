@@ -233,3 +233,25 @@ create or replace file format ff_sample_json
 type = JSON
 strip_outer_array = TRUE;
 
+
+-- changeset jeff.pell:structure-19  runOnChange:true runAlways:false stripComments:false
+drop view if exists POC_01.PUBLIC.MV_ALL_FEEDBACK;
+
+
+-- changeset jeff.pell:structure-20  runOnChange:true runAlways:false stripComments:false
+create materialized view if not exists POC_01.PUBLIC.MV_ALL_FEEDBACK(
+	DATE_CREATED,
+	ORIGINATING_EMAIL_ADDRESS,
+	EMAIL_SUBJECT,
+	EMAIL_BODY,
+	FEEDBACK,
+	KEYWORDS
+) as
+select email_info:received_datetime::datetime as date_created,
+       email_info:sender::text  as originating_email_address,
+       email_info:subject::text as email_subject,
+       email_info:body::text as email_body,
+       email_info:sentiment::text as feedback,
+       email_info:keyPhrases::text as keywords
+from poc_01.public.json_email;
+
