@@ -4,10 +4,11 @@ module "lambda_function_front_end" {
   function_name = "${var.environment}_front_end"
   description   = "${var.environment} function to access Snowflake"
 
-  handler = "index.handler"
-  publish = true
-  runtime = "nodejs16.x"
-  timeout = 30
+  handler     = "index.handler"
+  memory_size = 256
+  publish     = true
+  runtime     = "nodejs16.x"
+  timeout     = 30
 
   source_path = [
     {

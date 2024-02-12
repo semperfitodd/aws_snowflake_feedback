@@ -1,9 +1,10 @@
 module "lambda_function_snowflake" {
   source = "terraform-aws-modules/lambda/aws"
 
-  function_name = "${var.environment}_snowflake"
   description   = "${var.environment} function to put emails into snowflake"
+  function_name = "${var.environment}_snowflake"
   handler       = "index.handler"
+  memory_size   = 512
   publish       = true
   runtime       = "nodejs16.x"
   timeout       = 300
